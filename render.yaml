@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: django-app # Swap for your app name
+    env: python
+    buildCommand: "./build.sh" # If you have that script from before; else "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn yourproject.wsgi:application" # Replace "yourproject" with your main module
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12 # Or whatever your Python version is
+      - key: SECRET_KEY
+        sync: false # Set this in Render dashboard instead

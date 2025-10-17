@@ -1,19 +1,25 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from productApi.models import UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = User
-        fields = ["id", "username", "email", "password"]
+        model = UserProfile
+        fields = ["id", "email", "name", "password"]
         extra_kwargs = {
             "password": {"write_only": True, "style": {"input_type": "password"}}
-        }  # Write-only for input
+        }
+
+    def normalize_email(self, email):
+        # Simple normalization: lowercase and strip spaces
+        return email.lower().strip()
 
     def create(self, validated_data):
         password = validated_data.pop("password")
-        user = User.objects.create_user(
-            **validated_data
-        )  # Use create_user for best practices
-        return user  # No extra save needed; create_user handles it
+        email = validated_data.get("email")
+        name = validated_data.get("name")
+        normalized_email = self.normalize_email(email)
+        validated_data["email"] = normalized_email  # Update with normalized version
+        user = UserProfile.objects.create_user(**validated_data, password=password)
+        return user

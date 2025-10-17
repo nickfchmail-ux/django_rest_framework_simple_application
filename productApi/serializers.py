@@ -6,20 +6,6 @@ from productApi.models import UserProfile
 
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "username", "email"]
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Product
-        fields = ["id", "user", "name", "description", "price", "stock", "pictureURL"]
-
-
-class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
@@ -40,3 +26,11 @@ class UserSerializer(serializers.ModelSerializer):
         validated_data["email"] = normalized_email  # Update with normalized version
         user = UserProfile.objects.create_user(**validated_data, password=password)
         return user
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = "__all__"

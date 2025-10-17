@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "productApi",
+    "userRegistration",
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,5 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
 }
+
+AUTH_USER_MODEL = "productApi.UserProfile"

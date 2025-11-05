@@ -1,5 +1,5 @@
 from django.contrib import admin
-from productApi import models
+from .models import UserDetail, UserProfile  # Relative import from the same app
 
-# Register your models here.
-admin.site.register(models.Product)
+admin.site.register(UserDetail)
+admin.site.register(UserProfile)
